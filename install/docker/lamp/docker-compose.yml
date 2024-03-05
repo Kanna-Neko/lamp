@@ -1,0 +1,44 @@
+version: '3.1'
+
+services:
+  mongo:
+    container_name: mongo
+    image: mongo:6.0
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    ports:
+      - 27017:27017
+    volumes:
+      - ./keyfile:/data/keyfile
+    healthcheck:
+      test: echo "try { rs.status() } catch (err) { rs.initiate() }" | mongosh -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --port 27017 --quiet
+      interval: 5s
+      timeout: 30s
+      start_period: 0s
+      start_interval: 1s
+      retries: 30
+    entrypoint:
+      - bash
+      - -c
+      - |
+        chmod 400 /data/keyfile
+        chown 999:999 /data/keyfile
+        exec docker-entrypoint.sh $$@     
+    command: "mongod --bind_ip_all --replSet rs0 --keyFile /data/keyfile"
+    
+  lamp:
+    container_name: lamp
+    build:
+      context: ../../../api
+      dockerfile: ./Dockerfile
+    depends_on:
+      - mongo
+    ports:
+      - 8080:8080
+    command: -c /configs/dev.yaml
+
+networks:
+  default:
+    name: lamp
