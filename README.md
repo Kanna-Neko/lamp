@@ -1,4 +1,4 @@
-# grapee
+# lamp
 Hi, there is lamp, an api visualization tool.
 
 ## Description
