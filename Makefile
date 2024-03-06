@@ -1,6 +1,10 @@
-.PHONY: lamp_api
-lamp:
+.PHONY: api
+api:
 	cd api && cargo run
+
+.PHONY: web
+web:
+	cd web && bun --bun dev
 
 .PHONY: lamp_docker_up
 lamp_docker_up:
