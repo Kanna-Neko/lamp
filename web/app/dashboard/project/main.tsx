@@ -1,6 +1,5 @@
 'use client'
 
-import ReactModal from 'react-modal'
 import { ReadAllProjectResponse } from "@/app/api/project"
 import {AnimationProps, motion} from 'framer-motion'
 import { useRef, useState } from "react"
