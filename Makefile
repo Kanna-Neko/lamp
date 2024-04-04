@@ -4,7 +4,7 @@ api:
 
 .PHONY: web
 web:
-	cd web && bun --bun dev
+	cd web && bun dev
 
 .PHONY: lamp_docker_up
 lamp_docker_up:
