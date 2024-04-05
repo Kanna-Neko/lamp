@@ -9,7 +9,10 @@
 		"ghcr.io/devcontainers/features/rust:1": {},
 		"ghcr.io/michidk/devcontainers-features/bun:1": {},
 		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
-	}
+	},
+	"runArgs": [
+		"--network=host"
+	]
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
