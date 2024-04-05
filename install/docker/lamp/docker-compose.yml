@@ -10,8 +10,6 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: admin
     ports:
       - 27017:27017
-    volumes:
-      - ./keyfile:/data/keyfile
     healthcheck:
       test: echo "try { rs.status() } catch (err) { rs.initiate() }" | mongosh -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --port 27017 --quiet
       interval: 5s
@@ -23,6 +21,8 @@ services:
       - bash
       - -c
       - |
+        mkdir /data
+        openssl rand -base64 741 > /data/keyfile
         chmod 400 /data/keyfile
         chown 999:999 /data/keyfile
         exec docker-entrypoint.sh $$@     
